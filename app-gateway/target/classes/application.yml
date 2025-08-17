@@ -1,0 +1,46 @@
+server:
+  port: 8077
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: discount-service
+          uri: lb://DISCOUNT-SERVICE
+          predicates:
+            - Path=/discount/**
+          filters:
+            - AuthenticationFilter
+
+        - id: feedback-service
+          uri: lb://FEEDBACK-SERVICE
+          predicates:
+            - Path=/feedback/**
+          filters:
+            - AuthenticationFilter
+
+        - id: user-insurance-service
+          uri: lb://USER-INSURANCE-SERVICE
+          predicates:
+            - Path=/insurance/**
+          filters:
+            - AuthenticationFilter
+
+        - id: insurance-cart-service
+          uri: lb://INSURANCE-CART-SERVICE
+          predicates:
+            - Path=/insurancecart/**
+          filters:
+            - AuthenticationFilter
+
+        - id: user-authentication-service
+          uri: lb://USER-AUTHENTICATION-SERVICE
+          predicates:
+            - Path=/authenticate/**
+
+  application:
+    name: App-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7777/eureka/
